@@ -22,5 +22,13 @@ namespace moe.futa.akizuki.cqbridge
         // CQAPI(int32_t) CQ_addLog(int32_t AuthCode, int32_t priority, const char* category, const char* content);
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.StdCall, EntryPoint = "CQ_addLog")]
         public static extern Int32 AppendLog(Int32 authCode, Int32 priority, String category, String content);
+
+        // CQAPI(int32_t) CQ_sendGroupMsg(int32_t AuthCode, int64_t groupid, const char *msg);
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.StdCall, EntryPoint = "CQ_sendGroupMsg")]
+        public static extern Int32 SendGroupMessage(Int32 authCode, Int64 groupId, String message);
+
+        // CQAPI(int32_t) CQ_sendPrivateMsg(int32_t AuthCode, int64_t QQID, const char *msg);
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.StdCall, EntryPoint = "CQ_sendPrivateMsg")]
+        public static extern Int32 SendPrivateMessage(Int32 authCode, Int64 userId, String message);
     }
 }
