@@ -20,6 +20,8 @@ namespace moe.futa.akizuki.cqbridge
             _socket.Bind(endpoint);
         }
 
+        public uint ConnectionCount { get; private set; } = 0;
+
         private static ZContext Context => _context ?? (_context = new ZContext());
 
         private void InstallMonitor()
@@ -31,6 +33,7 @@ namespace moe.futa.akizuki.cqbridge
 
             monitor.Accepted += OnAccepted;
             monitor.BindFailed += OnBindFailed;
+            monitor.Disconnected += OnDisconnected;
             monitor.Listening += OnListening;
 
             monitor.Start();
@@ -38,12 +41,17 @@ namespace moe.futa.akizuki.cqbridge
 
         private void OnAccepted(Object sender, ZMonitorFileDescriptorEventArgs e)
         {
-            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, GetType().Name, "Accepted connection");
+            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, GetType().Name, $"Accepted connection [{ConnectionCount = ConnectionCount + 1}]");
         }
 
         private void OnBindFailed(Object sender, ZMonitorEventArgs e)
         {
-            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Fatal, GetType().Name, "Failed to bind address");
+            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Fatal, GetType().Name, "Failed to bind on endpoint");
+        }
+
+        private void OnDisconnected(Object sender, ZMonitorFileDescriptorEventArgs e)
+        {
+            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, GetType().Name, $"Connection closed [{ConnectionCount = ConnectionCount - 1}]");
         }
 
         private void OnListening(Object sender, ZMonitorFileDescriptorEventArgs e)

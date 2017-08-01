@@ -27,12 +27,12 @@ namespace moe.futa.akizuki.cqbridge
 
         private static String GetStatusString()
         {
-            return
-                typeof(HostClient).FullName + "\n" +
-                "- hash " + Assembly.GetExecutingAssembly().GetHashCode().ToString("X") + "\n" +
-                "- host " + Environment.MachineName + "\n" +
-                "- system " + Environment.OSVersion.VersionString + "\n" +
-                "- uptime " + (DateTime.Now - _startupTime);
+            return $@"{typeof(HostClient).FullName}
+- active subscribers {_outbound.ConnectionCount}
+- hash {Assembly.GetExecutingAssembly().GetHashCode():X}
+- host {Environment.MachineName}
+- system {Environment.OSVersion.VersionString}
+- uptime {DateTime.Now - _startupTime}";
         }
 
         // CQEVENT(int32_t, __eventStartup, 0)()
