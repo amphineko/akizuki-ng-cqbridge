@@ -5,7 +5,7 @@ using moe.futa.akizuki.cqbridge.Messages;
 
 namespace moe.futa.akizuki.cqbridge
 {
-    public class HostClient
+    internal class HostClient
     {
         private const String Appid = "moe.futa.akizuki.cqbridge";
         private const String StatusTrigger = "0cba061c25c86424187f08b0344c13d1";

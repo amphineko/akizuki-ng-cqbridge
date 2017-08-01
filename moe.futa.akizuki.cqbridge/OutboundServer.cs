@@ -4,7 +4,7 @@ using ZeroMQ;
 
 namespace moe.futa.akizuki.cqbridge
 {
-    public class OutboundServer : Server
+    internal class OutboundServer : Server
     {
         public OutboundServer(String endpoint) : base(ZSocketType.PUB, endpoint)
         {

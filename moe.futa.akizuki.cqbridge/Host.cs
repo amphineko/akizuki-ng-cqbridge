@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace moe.futa.akizuki.cqbridge
 {
-    public class HostLogLevel
+    internal class HostLogLevel
     {
         public const Int32 Debug = 0;
         public const Int32 Info = 10;
@@ -15,7 +15,7 @@ namespace moe.futa.akizuki.cqbridge
         public const Int32 Fatal = 40;
     }
 
-    public class Host
+    internal class Host
     {
         private const String LibraryName = "cqp.dll";
 

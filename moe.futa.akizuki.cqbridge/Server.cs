@@ -6,7 +6,7 @@ using ZeroMQ.Monitoring;
 
 namespace moe.futa.akizuki.cqbridge
 {
-    public class Server
+    internal abstract class Server
     {
         private static ZContext _context;
         private static readonly List<ZMonitor> Monitors = new List<ZMonitor>();
@@ -15,12 +15,13 @@ namespace moe.futa.akizuki.cqbridge
 
         protected Server(ZSocketType type, String endpoint)
         {
+            ConnectionCount = 0;
             _socket = new ZSocket(Context, type);
             InstallMonitor();
             _socket.Bind(endpoint);
         }
 
-        public uint ConnectionCount { get; private set; } = 0;
+        public uint ConnectionCount { get; private set; }
 
         private static ZContext Context => _context ?? (_context = new ZContext());
 
@@ -41,7 +42,8 @@ namespace moe.futa.akizuki.cqbridge
 
         private void OnAccepted(Object sender, ZMonitorFileDescriptorEventArgs e)
         {
-            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, GetType().Name, $"Accepted connection [{ConnectionCount = ConnectionCount + 1}]");
+            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, GetType().Name,
+                $"Accepted connection [{++ConnectionCount}]");
         }
 
         private void OnBindFailed(Object sender, ZMonitorEventArgs e)
@@ -51,7 +53,8 @@ namespace moe.futa.akizuki.cqbridge
 
         private void OnDisconnected(Object sender, ZMonitorFileDescriptorEventArgs e)
         {
-            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, GetType().Name, $"Connection closed [{ConnectionCount = ConnectionCount - 1}]");
+            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, GetType().Name,
+                $"Connection closed [{--ConnectionCount}]");
         }
 
         private void OnListening(Object sender, ZMonitorFileDescriptorEventArgs e)

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace moe.futa.akizuki.cqbridge.Messages
 {
-    public class GroupMessage : UserGeneratedMessage
+    internal class GroupMessage : UserGeneratedMessage
     {
         public readonly String GroupId;
 
@@ -13,14 +13,14 @@ namespace moe.futa.akizuki.cqbridge.Messages
         }
     }
 
-    public class PrivateMessage : UserGeneratedMessage
+    internal class PrivateMessage : UserGeneratedMessage
     {
         public PrivateMessage(String content, Int32 time, String userId) : base(content, time, userId)
         {
         }
     }
 
-    public class UserGeneratedMessage : SerializableMessage
+    internal class UserGeneratedMessage : SerializableMessage
     {
         public readonly String Content;
         public readonly String UserId;
@@ -32,7 +32,7 @@ namespace moe.futa.akizuki.cqbridge.Messages
         }
     }
 
-    public abstract class SerializableMessage
+    internal abstract class SerializableMessage
     {
         public readonly Int32 Time;
 
