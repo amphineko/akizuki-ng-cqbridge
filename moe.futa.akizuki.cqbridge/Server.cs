@@ -11,14 +11,14 @@ namespace moe.futa.akizuki.cqbridge
         private static ZContext _context;
         private static readonly List<ZMonitor> Monitors = new List<ZMonitor>();
 
-        private readonly ZSocket _socket;
+        protected readonly ZSocket Socket;
 
         protected Server(ZSocketType type, String endpoint)
         {
             ConnectionCount = 0;
-            _socket = new ZSocket(Context, type);
+            Socket = new ZSocket(Context, type);
             InstallMonitor();
-            _socket.Bind(endpoint);
+            Socket.Bind(endpoint);
         }
 
         public uint ConnectionCount { get; private set; }
@@ -28,7 +28,7 @@ namespace moe.futa.akizuki.cqbridge
         private void InstallMonitor()
         {
             var address = "inproc://monitor." + Guid.NewGuid();
-            _socket.Monitor(address);
+            Socket.Monitor(address);
             var monitor = ZMonitor.Create(Context, address);
             Monitors.Add(monitor);
 
@@ -70,7 +70,7 @@ namespace moe.futa.akizuki.cqbridge
                 content
             }.Select(s => new ZFrame(s))))
             {
-                _socket.SendMessage(message);
+                Socket.SendMessage(message);
             }
         }
 

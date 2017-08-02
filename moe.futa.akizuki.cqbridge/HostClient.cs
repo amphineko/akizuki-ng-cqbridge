@@ -13,6 +13,7 @@ namespace moe.futa.akizuki.cqbridge
         private const Int32 EventHandled = 1;
         private const Int32 EventIgnored = 0;
 
+        private static InboundServer _inbound;
         private static DateTime _startupTime;
         private static OutboundServer _outbound;
 
@@ -40,6 +41,7 @@ namespace moe.futa.akizuki.cqbridge
         public static Int32 Initialize()
         {
             Host.AppendLog(AuthCode, HostLogLevel.Info, typeof(HostClient).Name, "Akizuki.CQBridge initializing.");
+            _inbound = new InboundServer("tcp://0.0.0.0:11452");
             _outbound = new OutboundServer("tcp://0.0.0.0:11451");
             _startupTime = DateTime.Now;
             Host.AppendLog(AuthCode, HostLogLevel.Info, typeof(HostClient).Name, "Akizuki.CQBridge initialized.");
