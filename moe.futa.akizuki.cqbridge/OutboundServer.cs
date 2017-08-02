@@ -12,12 +12,12 @@ namespace moe.futa.akizuki.cqbridge
 
         public void PushGroupMessage(GroupMessage message)
         {
-            SendTopicMessage("message.group", message.ToJsonString());
+            SendTopicMessage("message", message.ToJsonString());
         }
 
         public void PushPrivateMessage(PrivateMessage message)
         {
-            SendTopicMessage("message.private", message.ToJsonString());
+            SendTopicMessage("message", message.ToJsonString());
         }
     }
 }

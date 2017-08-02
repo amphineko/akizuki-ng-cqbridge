@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Reflection;
 using Newtonsoft.Json;
 
 namespace moe.futa.akizuki.cqbridge.Messages
 {
+    [MessageType("group")]
     internal class GroupMessage : UserGeneratedMessage
     {
         public readonly String GroupId;
@@ -13,19 +15,31 @@ namespace moe.futa.akizuki.cqbridge.Messages
         }
     }
 
+    [AttributeUsage(AttributeTargets.Class)]
+    internal class MessageType : Attribute
+    {
+        public readonly String Name;
+
+        public MessageType(String name)
+        {
+            Name = name;
+        }
+    }
+
+    [MessageType("private")]
     internal class PrivateMessage : UserGeneratedMessage
     {
         public PrivateMessage(String content, Int32 time, String userId) : base(content, time, userId)
         {
         }
     }
-
-    internal class UserGeneratedMessage : SerializableMessage
+    
+    internal abstract class UserGeneratedMessage : SerializableMessage
     {
         public readonly String Content;
         public readonly String UserId;
 
-        public UserGeneratedMessage(String content, Int32 time, String userId) : base(time)
+        protected UserGeneratedMessage(String content, Int32 time, String userId) : base(time)
         {
             Content = content;
             UserId = userId;
@@ -35,10 +49,12 @@ namespace moe.futa.akizuki.cqbridge.Messages
     internal abstract class SerializableMessage
     {
         public readonly Int32 Time;
+        public readonly String Type;
 
         protected SerializableMessage(Int32 time)
         {
             Time = time;
+            Type = GetType().GetCustomAttribute<MessageType>().Name;
         }
 
         public String ToJsonString()
