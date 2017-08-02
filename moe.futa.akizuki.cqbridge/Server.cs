@@ -19,6 +19,7 @@ namespace moe.futa.akizuki.cqbridge
             Socket = new ZSocket(Context, type);
             InstallMonitor();
             Socket.Bind(endpoint);
+            Host.AppendLog(HostClient.AuthCode, HostLogLevel.Info, typeof(HostClient).Name, $"Listening on {endpoint}");
         }
 
         public uint ConnectionCount { get; private set; }

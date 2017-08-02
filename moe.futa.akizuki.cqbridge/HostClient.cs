@@ -51,8 +51,8 @@ namespace moe.futa.akizuki.cqbridge
                 Host.AppendLog(AuthCode, HostLogLevel.Fatal, typeof(HostClient).Name, e.Message);
                 return 0;
             }
-            _inbound = new InboundServer("tcp://0.0.0.0:11452");
-            _outbound = new OutboundServer("tcp://0.0.0.0:11451");
+            _inbound = new InboundServer(config.Server.InboundEndpoint);
+            _outbound = new OutboundServer(config.Server.OutboundEndpoint);
             _startupTime = DateTime.Now;
             Host.AppendLog(AuthCode, HostLogLevel.Info, typeof(HostClient).Name, "Akizuki.CQBridge initialized.");
             return 0;
